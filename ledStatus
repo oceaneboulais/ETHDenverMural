@@ -1,0 +1,41 @@
+
+#include <Adafruit_NeoPixel.h>
+#define PIXEL_PIN    12    // Digital IO pin connected to the NeoPixels.
+
+#define PIXEL_COUNT 20
+
+int incomingByte = 0;   // for incoming serial data
+
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, NEO_GRB + NEO_KHZ800);
+
+
+void setup() {
+        Serial.begin(9600);     // opens serial port, sets data rate to 9600 bps
+        pixels.begin();
+        pixels.show();
+       
+//        strip.begin();
+//        strip.show(); // Initialize all pixels to 'off'
+}
+
+void loop() {
+
+        // send data only when you receive data:
+        if (Serial.available() > 0) {
+                // read the incoming byte:
+                incomingByte = Serial.read();
+                Serial.print("I received: ");
+                Serial.println(incomingByte, DEC);
+
+                 //pixels.setPixelColor(pixels.Color(0,0,0)); // Moderately bright green color.
+                for(int i=0;i<PIXEL_COUNT;i++){
+
+                // pixels.Color takes RGB values, from 0,0,0 up to 255,255,255
+                pixels.setPixelColor(i, pixels.Color(0,0,0)); // Moderately bright green color.
+                pixels.setPixelColor(i, pixels.Color(0,150,0)); // Moderately bright green color.
+                pixels.show(); // This sends the updated pixel color to the hardware.
+                delay(150); // Delay for a period of time (in milliseconds).
+  
+                  }
+ }
+}
